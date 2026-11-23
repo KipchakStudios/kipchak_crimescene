@@ -102,6 +102,8 @@ Config.Markers = {
     }
 }
 
+Config.Sanitize3DText = true
+
 Config.Scene = {
     Radius = 60.0,
     ExpireMinutes = 60

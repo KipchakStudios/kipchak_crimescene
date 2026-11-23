@@ -5,7 +5,7 @@ lua54 'yes'
 name 'kipchak_crimescene'
 author 'Kipchak Studios'
 description 'Kipchak Crime Scene - evidence markers, police tape and scene props'
-version '1.0.0'
+version '1.0.1'
 
 files {
     'textures/*.png'

@@ -99,6 +99,7 @@ All controls can be changed in `Config.Placement.Controls` (control ids) and `Co
 | `Config.Markers.Model` / `Models` | Marker model, or per number models |
 | `Config.Markers.Notes` | Notes on/off, ask on placement, max length, view distance |
 | `Config.Markers.Info` | Officer and time text near a marker |
+| `Config.Sanitize3DText` | The game font cannot draw some Turkish letters; `true` replaces ğ, Ğ, ş, Ş and İ with g, G, s, S and I in 3D texts only (default `true`) |
 | `Config.Scene.Radius` | Scene radius used for marker numbering (default 60.0) |
 | `Config.Scene.ExpireMinutes` | Auto removal after this many minutes, `0` disables |
 | `Config.Tape.PoleModel` | Model used for tape poles |
@@ -192,6 +193,10 @@ end)
 
 - `markerRemoved` reason is `'removed'`, `'cleared'` or `'expired'` (`src` is `nil` for expiry). It also fires for every marker removed by a clear.
 - `sceneCleared` data is `{ mode = 'own' | 'radius', sceneIds, count, owner, coords?, radius? }`.
+
+## Changelog
+
+- 1.0.1 – 3D texts (marker numbers, notes, officer line) no longer show broken characters for Turkish letters. New option Config.Sanitize3DText.
 
 ## Support
 
