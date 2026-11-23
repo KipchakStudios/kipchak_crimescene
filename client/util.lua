@@ -39,7 +39,33 @@ function Util.CameraRaycast(distance, flags, ignore)
     return hit == 1 or hit == true, coords, normal, entity, origin, target
 end
 
+local glyphMap = {
+    ['\196\159'] = 'g',
+    ['\196\158'] = 'G',
+    ['\197\159'] = 's',
+    ['\197\158'] = 'S',
+    ['\196\176'] = 'I'
+}
+
+local sanitizeCache = {}
+local sanitizeCount = 0
+
+local function sanitizeText(text)
+    if Config.Sanitize3DText == false or type(text) ~= 'string' then return text end
+    local cached = sanitizeCache[text]
+    if cached then return cached end
+    local result = text:gsub('[\196\197][\128-\191]', glyphMap)
+    if sanitizeCount >= 256 then
+        sanitizeCache = {}
+        sanitizeCount = 0
+    end
+    sanitizeCache[text] = result
+    sanitizeCount = sanitizeCount + 1
+    return result
+end
+
 function Util.DrawText3D(coords, text, scale, color, offsetY)
+    text = sanitizeText(text)
     SetDrawOrigin(coords.x, coords.y, coords.z, 0)
     SetTextScale(0.0, scale)
     SetTextFont(4)
