@@ -64,7 +64,7 @@ function Placement.Run(opts)
     end
 
     local currentModel = wantedModel()
-    local hash = Util.LoadModel(currentModel)
+    local hash = Util.LoadModel(currentModel, opts.fallback)
     if not hash then
         Util.Notify(L('err_model_load'), 'error')
         return
@@ -85,7 +85,7 @@ function Placement.Run(opts)
 
         local desired = wantedModel()
         if desired ~= currentModel then
-            local newHash = Util.LoadModel(desired)
+            local newHash = Util.LoadModel(desired, opts.fallback)
             if newHash then
                 removeGhost(ghost)
                 hash, currentModel = newHash, desired

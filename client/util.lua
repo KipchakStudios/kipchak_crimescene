@@ -6,9 +6,12 @@ function Util.Notify(message, kind)
     lib.notify({ title = L('title'), description = message, type = kind or 'inform' })
 end
 
-function Util.LoadModel(model)
+function Util.LoadModel(model, fallback)
     local hash = type(model) == 'number' and model or joaat(model)
-    if not IsModelValid(hash) then return end
+    if not IsModelValid(hash) then
+        if fallback and fallback ~= model then return Util.LoadModel(fallback) end
+        return
+    end
     local ok = pcall(lib.requestModel, hash, 5000)
     if not ok then return end
     return hash

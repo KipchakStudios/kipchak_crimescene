@@ -22,7 +22,7 @@ local function despawn(id)
 end
 
 local function spawn(obj)
-    local hash = Util.LoadModel(obj.model)
+    local hash = Util.LoadModel(obj.model, obj.kind == 'marker' and Config.Markers.FallbackModel or nil)
     if not hash then return end
     if Store[obj.id] ~= obj or Spawned[obj.id] then
         SetModelAsNoLongerNeeded(hash)
@@ -131,7 +131,7 @@ CreateThread(function()
                     if not closestDist or dist < closestDist then
                         closest, closestDist = obj, dist
                     end
-                    local top = vector3(obj.coords.x, obj.coords.y, (obj.top or obj.coords.z + 0.5) + 0.15)
+                    local top = vector3(obj.coords.x, obj.coords.y, MarkerTextZ(obj.coords.z, obj.top))
                     Util.DrawText3D(top, tostring(obj.number), markers.TextScale, markers.TextColor)
                     if markers.Notes.Enabled and obj.note and dist <= markers.Notes.Distance then
                         Util.DrawText3D(top, obj.note, markers.TextScale * 0.6, markers.Notes.Color, 0.03)
@@ -139,7 +139,7 @@ CreateThread(function()
                 end
             end
             if markers.Info.Enabled and closest and closestDist <= markers.Info.Distance then
-                local top = vector3(closest.coords.x, closest.coords.y, (closest.top or closest.coords.z + 0.5) + 0.15)
+                local top = vector3(closest.coords.x, closest.coords.y, MarkerTextZ(closest.coords.z, closest.top))
                 local offset = (markers.Notes.Enabled and closest.note) and 0.052 or 0.03
                 Util.DrawText3D(top, L('info_officer', closest.ownerName or '?', closest.timeText or ''), markers.TextScale * 0.55, markers.Info.Color, offset)
             end

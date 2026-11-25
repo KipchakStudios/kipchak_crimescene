@@ -73,8 +73,9 @@ local function startMarkers()
     local markers = Config.Markers
     Placement.Run({
         model = function() return MarkerModel(nextNumber) end,
+        fallback = markers.FallbackModel,
         onFrame = function(pos, _, _, top)
-            Util.DrawText3D(vector3(pos.x, pos.y, top + 0.15), tostring(nextNumber), markers.TextScale, markers.TextColor)
+            Util.DrawText3D(vector3(pos.x, pos.y, MarkerTextZ(pos.z, top)), tostring(nextNumber), markers.TextScale, markers.TextColor)
         end,
         onConfirm = function(pos, heading)
             local ok, _, extra = Placement.Submit({
