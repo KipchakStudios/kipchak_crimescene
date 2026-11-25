@@ -83,8 +83,14 @@ Config.Placement = {
 
 Config.Markers = {
     Enabled = true,
-    Model = 'prop_roadcone02b',
+    -- Default: ch_prop_ch_fib_01a, the small yellow base game evidence marker (needs game build 2060+).
+    -- Other base game candidates: 'prop_roadcone02c' (small cone), 'prop_mp_cone_04' (small race cone), 'prop_air_conelight' (small airport cone light).
+    -- Your own streamed marker works too, see "Using your own props" in the README.
+    Model = 'ch_prop_ch_fib_01a',
     Models = {},
+    FallbackModel = 'prop_roadcone02c',
+    -- 'auto' draws the number just above the top of the model, a number sets the height above the ground in meters.
+    TextOffset = 'auto',
     TextDistance = 12.0,
     TextScale = 0.42,
     TextColor = { 255, 214, 0, 255 },

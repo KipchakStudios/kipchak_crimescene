@@ -41,6 +41,7 @@ A free, lightweight crime scene tool for FiveM by **Kipchak Studios**. Officers 
 - One of: `qbx_core`, `qb-core`, `es_extended`
 - Optional: `ox_target` or `qb-target`
 - OneSync (default on modern servers)
+- Game build 2060 or newer (`sv_enforceGameBuild`) for the default marker model. Older builds show `Config.Markers.FallbackModel` instead
 
 ## Installation
 
@@ -96,7 +97,9 @@ All controls can be changed in `Config.Placement.Controls` (control ids) and `Co
 | `Config.Placement.MaxDistance` | Max distance between player and preview (default 8.0) |
 | `Config.Placement.ChainPlacement` | Keep placing after each confirm until cancelled |
 | `Config.Placement.MaxSlope` | Steepest surface angle accepted, in degrees |
-| `Config.Markers.Model` / `Models` | Marker model, or per number models |
+| `Config.Markers.Model` / `Models` | Marker model, or per number models. Default `ch_prop_ch_fib_01a`, the small yellow base game evidence marker (game build 2060 or newer) |
+| `Config.Markers.FallbackModel` | Model drawn on clients that cannot load the marker model, for example on an older game build (default `prop_roadcone02c`) |
+| `Config.Markers.TextOffset` | Height of the number text: `'auto'` places it just above the top of the model, a number sets meters above the ground (default `'auto'`) |
 | `Config.Markers.Notes` | Notes on/off, ask on placement, max length, view distance |
 | `Config.Markers.Info` | Officer and time text near a marker |
 | `Config.Sanitize3DText` | The game font cannot draw some Turkish letters; `true` replaces ğ, Ğ, ş, Ş and İ with g, G, s, S and I in 3D texts only (default `true`) |
@@ -116,7 +119,7 @@ All controls can be changed in `Config.Placement.Controls` (control ids) and `Co
 
 ## Using your own props
 
-The defaults only use base game models. If your server streams its own evidence marker props, point the config at them:
+The defaults only use base game models. If your server streams its own evidence marker props, put the model files (`.ydr`, plus `.ytyp` and `.ytd` if the pack has them) in the `stream` folder of any resource, add `data_file 'DLC_ITYP_REQUEST' 'stream/your_pack.ytyp'` to that resource's `fxmanifest.lua` if there is a `.ytyp`, start that resource before `kipchak_crimescene`, then point the config at the model names:
 
 ```lua
 Config.Markers.Model = 'my_evidence_marker'
@@ -128,7 +131,7 @@ Config.Markers.Models = {
 }
 ```
 
-Numbers without an entry in `Models` fall back to `Model`. The number is always drawn as 3D text as well, so plain props work fine.
+Numbers without an entry in `Models` fall back to `Model`. The number is always drawn as 3D text as well, so plain props work fine. If the text sits too high or too low on your model, set `Config.Markers.TextOffset` to a fixed height, for example `0.35`.
 
 Tape poles and scene props work the same way through `Config.Tape.PoleModel` and `Config.Props`. Only models listed in the config are accepted by the server.
 
@@ -196,6 +199,7 @@ end)
 
 ## Changelog
 
+- 1.0.2 – Evidence markers use the base game yellow evidence marker `ch_prop_ch_fib_01a` instead of a traffic cone, with a fallback model for older game builds. New options Config.Markers.FallbackModel and Config.Markers.TextOffset.
 - 1.0.1 – 3D texts (marker numbers, notes, officer line) no longer show broken characters for Turkish letters. New option Config.Sanitize3DText.
 
 ## Support
